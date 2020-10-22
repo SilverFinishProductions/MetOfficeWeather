@@ -12,9 +12,12 @@ public class WeatherClass {
     private int uvIndex;
     private int humidity;
     private int precipitation;
+    private int time;
+    private String date;
 
-    public WeatherClass(int temp, int tempFeels, String weatherType, int windSpeed, int windGust, String windDir, String visibility, int uvIndex, int humidity, int precipitation) {
+    public WeatherClass(String date,int temp, int tempFeels, String weatherType, int windSpeed, int windGust, String windDir, String visibility, int uvIndex, int humidity, int precipitation,int time) {
 
+        this.date = date;
         this.temp = temp;
         this.tempFeels = tempFeels;
         this.weatherType = weatherType;
@@ -25,8 +28,9 @@ public class WeatherClass {
         this.uvIndex = uvIndex;
         this.humidity = humidity;
         this.precipitation = precipitation;
-
+        this.time = time;
     }
+    public String getDate(){return date;}
 
     public int getTemp() {
         return temp;
@@ -66,6 +70,22 @@ public class WeatherClass {
 
     public int getPrecipitation() {
         return precipitation;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public String getEventString() {
+        return "On: " + getDate() +
+                " | Time: " + time + ":00" +
+                " | Temp: " + getTemp() + "°C" + " (" + getTempFeels() + ")" +
+                " | Weather: " + getWeatherType() +
+                " | Wind: " + getWindSpeed() + " MPH" + " (" + getWindGust() + ")" + " " + getWindDir() +
+                " | Visibility: " + getVisibility() +
+                " | UV index: " + getUvIndex() +
+                " | Humidity: " + getHumidity() + "%" +
+                " | Precipitation: " + getPrecipitation() + "%";
     }
 
 }

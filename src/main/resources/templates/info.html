@@ -7,6 +7,29 @@
 
     <head>
         <title>Weather Information</title>
+        <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+          margin-left:-160px;
+          margin-right:auto;
+          text-align:center;
+          font-size:11px;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+          width:100px;
+          white-space:nowrap;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
     </head>
     <body>
         <div layout:fragment="content" class="container body-content">
@@ -15,8 +38,62 @@
                 <p>You entered location name <span th:text="${weatherInfo.locName}"></span></p>
             </div>
             <div>
-                <p>Data: <span th:text="${weatherInfo.data}"></span></p>
+                <table>
+                    <tr>
+                        <th>DATE </th>
+                        <th>TIME </th>
+                        <th>TEMP (C) </th>
+                        <th>FEELS LIKE (C)</th>
+                        <th>WEATHER </th>
+                        <th>WIND SPEED (MPH)</th>
+                        <th>WIND GUST (MPH)</th>
+                        <th>WIND DIRECTION </th>
+                        <th>VISIBILITY </th>
+                        <th>UV INDEX </th>
+                        <th>HUMIDITY (%)</th>
+                        <th>PRECIPITATION (%)</th>
+                    </tr>
+                    <tr th:each="event : ${weatherInfo.data}">
+                        <td th:object="${event}">
+                            <span th:text="*{date}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{time}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{temp}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{tempFeels}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{weatherType}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{windSpeed}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{windGust}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{windDir}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{visibility}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{uvIndex}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{humidity}">...</span>
+                        </td>
+                        <td th:object="${event}">
+                            <span th:text="*{precipitation}">...</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
+
         </div>
     </body>
 </html>
