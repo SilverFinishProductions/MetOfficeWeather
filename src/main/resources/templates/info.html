@@ -12,10 +12,10 @@
           font-family: arial, sans-serif;
           border-collapse: collapse;
           width: 100%;
-          margin-left:-160px;
+          margin-left:auto;
           margin-right:auto;
           text-align:center;
-          font-size:11px;
+          font-size:12px;
         }
 
         td, th {
@@ -29,6 +29,7 @@
         tr:nth-child(even) {
           background-color: #dddddd;
         }
+
         </style>
     </head>
     <body>
@@ -36,6 +37,8 @@
             <h2>Weather Information</h2>
             <div>
                 <p>You entered location name <span th:text="${weatherInfo.locName}"></span></p>
+                <img style="max-width:650px;" src="http://datapoint.metoffice.gov.uk/public/data/image/wxfcs/surfacepressure/gif?timestep=0&key=d9db0ba4-7eac-46da-a83c-fb074bb8015d" align="middle">
+                <p>Percentage change of umbrella usage <span th:text="${weatherInfo.umbrellaChanceChange}"></span></p>
             </div>
             <div>
                 <table>

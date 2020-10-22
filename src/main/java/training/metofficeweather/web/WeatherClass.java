@@ -72,8 +72,8 @@ public class WeatherClass {
         return precipitation;
     }
 
-    public int getTime() {
-        return time;
+    public String getTime() {
+        return Integer.toString(time) + ":00";
     }
 
     public String getEventString() {
