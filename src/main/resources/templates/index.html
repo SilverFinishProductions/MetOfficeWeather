@@ -1,27 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="layout">
-<head>
-    <title>Home page</title>
-</head>
-<body>
-<div layout:fragment="content" class="container body-content">
-    <div class="jumbotron">
-        <h1>Met Office Weather</h1>
-        <p class="lead">For all your weather needs. Enter a location name below and click enter to see the weather forecast for that location.</p>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="layout">
+    <head>
+        <title>Met Office Weather</title>
+        <style>
+
+                @keyframes slideIn {
+                  0% {
+                    transform: translateY(100%);
+                    opacity: 0%;
+                  }
+                  100% {
+                    transform: translateY(0);
+                    opacity: 100%;
+                  }
+                }
+
+                body {
+                    font-family: arial, sans-serif;
+                    background-image: linear-gradient(-45deg,#000000,#005555);
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    text-align: center;
+                }
+
+                location {
+                    animation: 1s ease 0s 1 slideIn;
+                    font-size: 48px;
+                    text-shadow: 3px 3px 5px black;
+                    color: white;
+                    font-weight: bold;
+                }
+
+                input[type=text] {
+                    animation: 1s ease 0s 1 slideIn;
+                    width: 250px;
+                    border: 3px inset #ccc;
+                    border-radius: 12px;
+                    font-size: 16px;
+                    background-color: white;
+                    padding: 10px 15px;
+                    transition: all 0.4s ease-in-out;
+                }
+
+                input[type=text]:focus {
+                    background-color: #99ffff;
+                }
+
+                input[type=submit] {
+                    animation: 1s ease 0s 1 slideIn;
+                    border: 3px outset #ccc;
+                    border-radius: 12px;
+                    font-size: 16px;
+                    background-color: #ffffff;
+                    padding: 10px 15px;
+                    transition: all 0.2s ease-in-out;
+                    font-weight: bold;
+                }
+
+                input[type=submit]:hover {
+                    background-color: #99ffff;
+                    cursor: pointer;
+                }
+
+                ::-webkit-scrollbar {
+                    width: 20px;
+                }
+                ::-webkit-scrollbar-thumb {
+                    background-color: #005555;
+                }
+                ::-webkit-scrollbar-track {
+                    background-color: #002222;
+                }
+                ::-webkit-scrollbar-thumb:hover {
+                    background-color: #008888;
+                }
+
+        </style>
+    </head>
+    <body>
+        <div layout:fragment="content" class="container body-content">
+            <location>Met Office Weather</location>
             <form id="messageForm" th:action="@{/weatherInfo}" method="get">
                 <fieldset>
-                    <legend>Location Name: </legend>
-                    <input type="text" name="locName">
-                    <input type="submit" value="Get Weather Info" />
+                    <input type="text" list="locations" name="locName" placeholder="Location" autofocus/>
+                    <datalist id="locations">
+                        <option th:each="site : ${sites}" th:value="*{site}">
+                    </datalist>
+                    <input type="submit" value="Go"/>
                 </fieldset>
             </form>
         </div>
-    </div>
-</div>
-</body>
+    </body>
 </html>

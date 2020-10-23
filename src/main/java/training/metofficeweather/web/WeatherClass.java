@@ -1,5 +1,9 @@
 package training.metofficeweather.web;
 
+import java.text.SimpleDateFormat;
+
+import static training.metofficeweather.web.WeatherInfo.parseDate;
+
 public class WeatherClass {
 
     private int temp;
@@ -12,12 +16,9 @@ public class WeatherClass {
     private int uvIndex;
     private int humidity;
     private int precipitation;
-    private int time;
-    private String date;
+    private String time = "##";
 
-    public WeatherClass(String date,int temp, int tempFeels, String weatherType, int windSpeed, int windGust, String windDir, String visibility, int uvIndex, int humidity, int precipitation,int time) {
-
-        this.date = date;
+    public WeatherClass(int temp, int tempFeels, String weatherType, int windSpeed, int windGust, String windDir, String visibility, int uvIndex, int humidity, int precipitation) {
         this.temp = temp;
         this.tempFeels = tempFeels;
         this.weatherType = weatherType;
@@ -28,28 +29,26 @@ public class WeatherClass {
         this.uvIndex = uvIndex;
         this.humidity = humidity;
         this.precipitation = precipitation;
-        this.time = time;
-    }
-    public String getDate(){return date;}
-
-    public int getTemp() {
-        return temp;
     }
 
-    public int getTempFeels() {
-        return tempFeels;
+    public String getTemp() {
+        return temp + "°C";
+    }
+
+    public String getTempFeels() {
+        return tempFeels + "°C";
     }
 
     public String getWeatherType() {
         return weatherType;
     }
 
-    public int getWindSpeed() {
-        return windSpeed;
+    public String getWindSpeed() {
+        return windSpeed + " MPH";
     }
 
-    public int getWindGust() {
-        return windGust;
+    public String getWindGust() {
+        return windGust + " MPH";
     }
 
     public String getWindDir() {
@@ -64,21 +63,24 @@ public class WeatherClass {
         return uvIndex;
     }
 
-    public int getHumidity() {
-        return humidity;
+    public String getHumidity() {
+        return humidity + "%";
     }
 
-    public int getPrecipitation() {
-        return precipitation;
+    public String getPrecipitation() {
+        return precipitation + "%";
     }
 
     public String getTime() {
-        return Integer.toString(time) + ":00";
+        return time.toUpperCase();
+    }
+
+    public void setTime(String time) {
+        this.time = new SimpleDateFormat("h a").format(parseDate(time, "HH"));
     }
 
     public String getEventString() {
-        return "On: " + getDate() +
-                " | Time: " + time + ":00" +
+        return "Time: " + time + ":00" +
                 " | Temp: " + getTemp() + "°C" + " (" + getTempFeels() + ")" +
                 " | Weather: " + getWeatherType() +
                 " | Wind: " + getWindSpeed() + " MPH" + " (" + getWindGust() + ")" + " " + getWindDir() +

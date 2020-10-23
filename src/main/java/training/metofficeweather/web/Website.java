@@ -19,14 +19,27 @@ import static training.metofficeweather.web.WeatherInfo.request;
 @EnableAutoConfiguration
 public class Website {
 
+    HashMap<String, String> sites = getSites();
+
     @RequestMapping("/")
     ModelAndView home() {
-        return new ModelAndView("index");
+        return new ModelAndView("index", "sites", sites.keySet());
     }
 
     @RequestMapping("/weatherInfo")
     ModelAndView weatherInfo(@RequestParam("locName") String locName) {
-        boolean isTyped = false;
+        String site = sites.get(locName);
+        if (site == null) {
+            return new ModelAndView("error");
+        }
+        return new ModelAndView("info", "weatherInfo", new WeatherInfo(locName, site));
+    }
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Website.class, args);
+    }
+
+    private HashMap<String, String> getSites() {
         JsonParser parser = new JsonParser();
         HashMap<String, String> sites = new HashMap<>();
         String siteList = request("http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=d9db0ba4-7eac-46da-a83c-fb074bb8015d");
@@ -35,18 +48,7 @@ public class Website {
         for (JsonElement i : arraySites) { // SITE
             sites.put(i.getAsJsonObject().get("name").getAsString(), i.getAsJsonObject().get("id").getAsString());
         }
-        //while (!isTyped) {
-            String site = sites.get(locName);
-            if (site == null) {
-                System.out.println("NO");
-                return new ModelAndView("error");
-            }
-        //}
-        return new ModelAndView("info", "weatherInfo", new WeatherInfo(locName,site));
-    }
-
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(Website.class, args);
+        return sites;
     }
 
 }

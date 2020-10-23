@@ -1,9 +1,9 @@
 {
   "UN": "Unknown",
-  "VP": "Very poor - <1 km",
-  "PO": "Poor - 1-4 km",
-  "MO": "Moderate - 4-10 km",
-  "GO": "Good - 10-20 km",
-  "VG": "Very good - 20-40 km",
-  "EX": "Excellent - >40 km"
+  "VP": "Very Poor (<1 KM)",
+  "PO": "Poor (1-4 KM)",
+  "MO": "Moderate (4-10 KM)",
+  "GO": "Good (10-20 KM)",
+  "VG": "Very Good (20-40 KM)",
+  "EX": "Excellent (>40 KM)"
 }

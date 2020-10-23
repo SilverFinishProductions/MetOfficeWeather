@@ -65,8 +65,6 @@ public class Main {
 
                 String result = request("http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/" + sites.get(location) + "?res=3hourly&key=d9db0ba4-7eac-46da-a83c-fb074bb8015d");
 
-                System.out.println(result);
-
                 JsonObject object = parser.parse(result).getAsJsonObject();
                 JsonArray array = object.get("SiteRep").getAsJsonObject().get("DV").getAsJsonObject().get("Location").getAsJsonObject().get("Period").getAsJsonArray();
                 for (JsonElement i : array) { // DAY

@@ -3,98 +3,142 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 
-    <!--@thymesVar id="weatherInfo" type="training.metofficeweather.web.WeatherInfo"-->
-
     <head>
         <title>Weather Information</title>
         <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-          margin-left:auto;
-          margin-right:auto;
-          text-align:center;
-          font-size:12px;
-        }
 
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-          width:100px;
-          white-space:nowrap;
-        }
+            @keyframes slideIn {
+              0% {
+                transform: translateY(100%);
+                opacity: 0%;
+              }
+              100% {
+                transform: translateY(0);
+                opacity: 100%;
+              }
+            }
 
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
+            body {
+                font-family: arial, sans-serif;
+                background-image: linear-gradient(-45deg,#000000,#005555);
+            }
+
+            table {
+                animation: 1s ease 0s 1 slideIn;
+                color: white;
+                border-collapse: collapse;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+                font-size: 12px;
+            }
+
+            td, th {
+                border: 2px inset #aaaaaa;
+                text-align: left;
+                padding: 8px;
+                width: 100px;
+                white-space: nowrap;
+            }
+
+            tr:nth-child(even) {
+                background-color: rgba(50, 50, 50, .5);
+            }
+            tr:nth-child(odd) {
+                background-color: rgba(100, 100, 100, .5);
+            }
+            .weatherRow:hover {
+                background-color: rgba(150, 150, 150, .5);
+            }
+
+            location {
+                animation: 1s ease 0s 1 slideIn;
+                font-size:48px;
+                text-shadow: 3px 3px 5px black;
+                color: white;
+                font-weight: bold;
+            }
+
+            ::-webkit-scrollbar {
+                width: 20px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #005555;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #002222;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #008888;
+            }
 
         </style>
     </head>
+
     <body>
         <div layout:fragment="content" class="container body-content">
-            <h2>Weather Information</h2>
-            <div>
-                <p>You entered location name <span th:text="${weatherInfo.locName}"></span></p>
-                <img style="max-width:650px;" src="http://datapoint.metoffice.gov.uk/public/data/image/wxfcs/surfacepressure/gif?timestep=0&key=d9db0ba4-7eac-46da-a83c-fb074bb8015d" align="middle">
-                <p>Percentage change of umbrella usage <span th:text="${weatherInfo.umbrellaChanceChange}"></span></p>
-            </div>
-            <div>
+            <table>
+                <tr>
+                    <th><location>Weather in <span th:text="${weatherInfo.locName}"></span></location></th>
+                </tr>
+            </table>
+            <br>
+            <div th:each="day : ${weatherInfo.data}">
                 <table>
                     <tr>
-                        <th>DATE </th>
-                        <th>TIME </th>
-                        <th>TEMP (C) </th>
-                        <th>FEELS LIKE (C)</th>
-                        <th>WEATHER </th>
-                        <th>WIND SPEED (MPH)</th>
-                        <th>WIND GUST (MPH)</th>
-                        <th>WIND DIRECTION </th>
-                        <th>VISIBILITY </th>
-                        <th>UV INDEX </th>
-                        <th>HUMIDITY (%)</th>
-                        <th>PRECIPITATION (%)</th>
+                        <th style="font-size: 16px;" colspan="11"><span th:text="*{day.day}"></span></th>
                     </tr>
-                    <tr th:each="event : ${weatherInfo.data}">
+                    <tr>
+                        <th>TIME 🕒</th>
+                        <th>TEMP 🌡️</th>
+                        <th>FEELS LIKE 🌡️</th>
+                        <th>WEATHER ☁</th>
+                        <th>WIND SPEED 💨</th>
+                        <th>WIND GUST 💨</th>
+                        <th>WIND DIR 🧭</th>
+                        <th>VISIBILITY 🌫️</th>
+                        <th>UV INDEX ☀</th>
+                        <th>HUMIDITY 💦</th>
+                        <th>PRECIP ☔</th>
+                    </tr>
+                    <tr class="weatherRow" th:each="event : ${day.weather}">
                         <td th:object="${event}">
-                            <span th:text="*{date}">...</span>
+                            <span th:text="*{time}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{time}">...</span>
+                            <span th:text="*{temp}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{temp}">...</span>
+                            <span th:text="*{tempFeels}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{tempFeels}">...</span>
+                            <span th:text="*{weatherType}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{weatherType}">...</span>
+                            <span th:text="*{windSpeed}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{windSpeed}">...</span>
+                            <span th:text="*{windGust}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{windGust}">...</span>
+                            <span th:text="*{windDir}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{windDir}">...</span>
+                            <span th:text="*{visibility}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{visibility}">...</span>
+                            <span th:text="*{uvIndex}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{uvIndex}">...</span>
+                            <span th:text="*{humidity}"></span>
                         </td>
                         <td th:object="${event}">
-                            <span th:text="*{humidity}">...</span>
-                        </td>
-                        <td th:object="${event}">
-                            <span th:text="*{precipitation}">...</span>
+                            <span th:text="*{precipitation}"></span>
                         </td>
                     </tr>
                 </table>
+                <br>
             </div>
 
         </div>
