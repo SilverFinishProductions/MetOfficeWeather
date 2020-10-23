@@ -45,17 +45,20 @@ public class WeatherInfo {
 
     private void generateWeatherList(String site, List<WeatherDay> weatherDays, HashMap<String, String> mapWeather, HashMap<String, String> mapVisibility) {
 
-        for (JsonElement i : getJsonElementsFromLocationUrl(site)) { // 1 DAY
+        JsonObject location = getJsonElementsFromLocationUrl(site);
+        JsonArray period = location.get("Period").getAsJsonArray();
+
+        for (JsonElement i : period) { // 1 DAY
 
             List<WeatherClass> weatherList = new ArrayList<>();
             JsonArray rep = i.getAsJsonObject().get("Rep").getAsJsonArray();
 
             for (JsonElement i2 : rep) { // 3 HOURS
-                JsonObject period = i2.getAsJsonObject();
-                weatherList.add(new WeatherClass(period.get("T").getAsInt(), period.get("F").getAsInt(),
-                        mapWeather.get(period.get("W").getAsString()), period.get("S").getAsInt(), period.get("G").getAsInt(),
-                        period.get("D").getAsString(), mapVisibility.get(period.get("V").getAsString()), period.get("U").getAsInt(),
-                        period.get("H").getAsInt(), period.get("Pp").getAsInt()));
+                JsonObject current = i2.getAsJsonObject();
+                weatherList.add(new WeatherClass(current.get("T").getAsInt(), current.get("F").getAsInt(),
+                        mapWeather.get(current.get("W").getAsString()), current.get("S").getAsInt(), current.get("G").getAsInt(),
+                        current.get("D").getAsString(), mapVisibility.get(current.get("V").getAsString()), current.get("U").getAsInt(),
+                        current.get("H").getAsInt(), current.get("Pp").getAsInt()));
             }
 
             weatherDays.add(new WeatherDay(parseDate(i.getAsJsonObject().get("value").getAsString(), "yyyy-MM-dd"), weatherList));
@@ -85,12 +88,11 @@ public class WeatherInfo {
         return date;
     }
 
-    private JsonArray getJsonElementsFromLocationUrl(String site) {
+    private JsonObject getJsonElementsFromLocationUrl(String site) {
         String result = request("http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/" + site + "?res=3hourly&key=d9db0ba4-7eac-46da-a83c-fb074bb8015d");
         JsonParser parser = new JsonParser();
         JsonObject object = parser.parse(result).getAsJsonObject();
-        JsonArray days = object.get("SiteRep").getAsJsonObject().get("DV").getAsJsonObject().get("Location").getAsJsonObject().get("Period").getAsJsonArray();
-        return days;
+        return object.get("SiteRep").getAsJsonObject().get("DV").getAsJsonObject().get("Location").getAsJsonObject();
     }
 
     public static HashMap<String, String> importJson(String fileName) {

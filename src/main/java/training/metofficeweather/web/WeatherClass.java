@@ -35,6 +35,10 @@ public class WeatherClass {
         return temp + "°C";
     }
 
+    public int getTempInt() {
+        return temp;
+    }
+
     public String getTempFeels() {
         return tempFeels + "°C";
     }
@@ -69,6 +73,10 @@ public class WeatherClass {
 
     public String getPrecipitation() {
         return precipitation + "%";
+    }
+
+    public int getPrecipitationInt() {
+        return precipitation;
     }
 
     public String getTime() {

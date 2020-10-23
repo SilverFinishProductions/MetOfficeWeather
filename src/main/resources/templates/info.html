@@ -21,6 +21,8 @@
             body {
                 font-family: arial, sans-serif;
                 background-image: linear-gradient(-45deg,#000000,#005555);
+                background-repeat: no-repeat;
+                background-attachment: fixed;
             }
 
             table {
@@ -40,14 +42,26 @@
                 padding: 8px;
                 width: 100px;
                 white-space: nowrap;
+                text-shadow: 1px 1px 1px #222222;
             }
 
-            tr:nth-child(even) {
+            .weatherDay {
+                background-color: rgba(100, 150, 150, .5);
+                text-shadow: 2px 2px 3px #222222;
+            }
+
+            .weatherHeader {
+                background-color: rgba(90, 120, 120, .5);
+                text-shadow: 1px 1px 2px #222222;
+            }
+
+            .weatherRow:nth-child(even) {
                 background-color: rgba(50, 50, 50, .5);
             }
-            tr:nth-child(odd) {
-                background-color: rgba(100, 100, 100, .5);
+            .weatherRow:nth-child(odd) {
+                background-color: rgba(80, 80, 80, .5);
             }
+
             .weatherRow:hover {
                 background-color: rgba(150, 150, 150, .5);
             }
@@ -79,17 +93,20 @@
     <body>
         <div layout:fragment="content" class="container body-content">
             <table>
-                <tr>
+                <tr class="weatherDay">
                     <th><location>Weather in <span th:text="${weatherInfo.locName}"></span></location></th>
                 </tr>
             </table>
             <br>
             <div th:each="day : ${weatherInfo.data}">
                 <table>
-                    <tr>
-                        <th style="font-size: 16px;" colspan="11"><span th:text="*{day.day}"></span></th>
+                    <tr class="weatherDay">
+                        <th style="font-size: 16px;" colspan="7"><span th:text="*{day.day}"></span></th>
+                        <th style="font-size: 16px;" colspan="1">High: <span th:text="*{day.tempHigh}"></span>°C 🌡️</th>
+                        <th style="font-size: 16px;" colspan="1">Low: <span th:text="*{day.tempLow}"></span>°C 🌡️</th>
+                        <th style="font-size: 16px;" colspan="2">Avg Precip: <span th:text="*{day.precipitationChance}"></span>% ☔</th>
                     </tr>
-                    <tr>
+                    <tr class="weatherHeader">
                         <th>TIME 🕒</th>
                         <th>TEMP 🌡️</th>
                         <th>FEELS LIKE 🌡️</th>
